@@ -39,3 +39,4 @@ function onInputChange(e) {
 function cleanMarkup() {
   countryList.innerHTML = '';
 }
+// comment
