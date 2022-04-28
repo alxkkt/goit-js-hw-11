@@ -31,21 +31,21 @@
     "notiflix": "^3.2.5"
   },
   "customDistStructure": {
-  "config": {
-    
-    ".js": "js",
-    ".css": "css",
-    
-    "images": [
-      ".jpg",
-      ".png"
-    ],
-    
-    ".fileExtension": "folder/in/dist",
-    "folder/in/dist": [ ".file", ".extensions" ]
-  },
-  "options": {
-    "development": true
+    "config": {
+      ".js": "js",
+      ".css": "css",
+      "images": [
+        ".jpg",
+        ".png"
+      ],
+      ".fileExtension": "folder/in/dist",
+      "folder/in/dist": [
+        ".file",
+        ".extensions"
+      ]
+    },
+    "options": {
+      "development": true
+    }
   }
-}
 }
