@@ -13,30 +13,33 @@ const countryList = document.querySelector('.country-list');
 input.addEventListener('input', debounce(onInputChange, DEBOUNCE_DELAY));
 
 function onInputChange(e) {
-  if (!e.target.value) return;
+  let searchQuery = e.target.value.trim();
 
-  fetchCountries(e.target.value)
-    .then(r => r.json())
+  if (!searchQuery) {
+    updateMarkup();
+    return;
+  }
+
+  fetchCountries(searchQuery)
     .then(data => {
-      if (data.length > 10) {
+      const elementsQuantity = data.length;
+
+      if (elementsQuantity > 10) {
         Notiflix.Notify.warning('Too many matches found. Please enter a more specific name.');
         return;
-      } else if (data.length < 10 && data.length > 1) {
-        cleanMarkup();
-        countryList.insertAdjacentHTML('beforeend', createListMarkup(data));
+      } else if (10 > elementsQuantity && elementsQuantity > 1) {
+        const markup = createListMarkup(data);
+
+        updateMarkup(markup);
       } else {
-        cleanMarkup();
-        countryList.insertAdjacentHTML('afterbegin', createCardMarkup(data));
+        const markup = createCardMarkup(data);
+
+        updateMarkup(markup);
       }
-
-      console.log(data);
     })
-    .catch(() => {
-      Notiflix.Notify.failure('Oops, there is no country with that name');
-    });
+    .catch(() => Notiflix.Notify.failure('Oops, there is no country with that name'));
 }
 
-function cleanMarkup() {
-  countryList.innerHTML = '';
+function updateMarkup(markup = '') {
+  countryList.innerHTML = markup;
 }
-// comment
