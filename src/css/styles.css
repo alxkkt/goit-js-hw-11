@@ -16,9 +16,6 @@ img {
   display: block;
 }
 
-#search-box {
-  font: inherit;
-  padding: 8px;
-  max-width: 320px;
-  margin-bottom: 16px;
-}
+/* .gallery {
+  display: flex;
+} */

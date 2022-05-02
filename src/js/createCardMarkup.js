@@ -1,14 +1,25 @@
-export function createCardMarkup(country) {
-  return country.map(({ name, flags, capital, population, languages }) => {
-    return `<li class="js-single-card">
-                <p class="card-title">
-                <img src="${flags.svg}" width="30" height="30" alt="${name.common} national Flag">
-                <span>${name.official}</span>
-                </p>
-                
-                    <p><span class="card-item">Capital:</span> ${capital}</p>
-                    <p><span class="card-item">Population:</span> ${population}</p>
-                    <p><span class="card-item">Languages:</span> ${Object.values(languages)}</p>
-            </li>`;
-  });
+export function createCardMarkup(data) {
+  return data
+    .map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
+      return `<div class="photo-card">
+            <a href="${largeImageURL}">
+            <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+            </a > 
+            <div class="info">
+              <p class="info-item">
+                <b>Likes ${likes}</b>
+              </p>
+              <p class="info-item">
+                <b>Views ${views}</b>
+              </p>
+              <p class="info-item">
+                <b>Comments ${comments}</b>
+              </p>
+              <p class="info-item">
+                <b>Downloads ${downloads}</b>
+              </p>
+            </div>
+          </div>`;
+    })
+    .join('');
 }
