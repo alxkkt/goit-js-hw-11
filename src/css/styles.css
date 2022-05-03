@@ -9,6 +9,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #fafafa;
   color: #212121;
+  margin: 0;
   line-height: 1.5;
 }
 
@@ -18,6 +19,32 @@ img {
 
 p {
   margin: 0;
+}
+
+.container {
+  position: sticky;
+  top: 0;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 50px;
+
+  background-color: rgba(53, 95, 180, 0.675);
+}
+
+.search-form {
+  width: 250px;
+  padding: 10px;
+}
+
+.search-form input {
+  padding: 5px;
+  
+  border: 2px solid #737373;
+  border-radius: 10px;
 }
 
 .visually-hidden {
@@ -70,11 +97,6 @@ p {
   color: #fefefe;
   font-size: 17px;
   background-color: lightskyblue;
-}
-
-.photo-card {
-  display: grid;
-  place-items: center;
 }
 
 .info {

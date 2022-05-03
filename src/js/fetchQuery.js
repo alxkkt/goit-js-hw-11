@@ -12,12 +12,10 @@ export class PicsServiceApi {
 
   async fetchQuery() {
     const { data, status } = await axios.get(
-      `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}&${SEARCH_PARAM}&per_page=10&page=${this.page}`,
+      `${BASE_URL}/?key=${API_KEY}&q=${this.searchQuery}&${SEARCH_PARAM}&per_page=40&page=${this.page}`,
     );
     if (status === 200) {
       this.incrementPage();
-
-      console.log(data);
       return data;
     } else {
       throw new Error(status);

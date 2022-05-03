@@ -10,13 +10,14 @@ import { refs } from './js/refs';
 refs.form.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
+refs.loadMoreBtn.classList.add('visually-hidden');
+
 const picsServiceApi = new PicsServiceApi();
 
 function onSearch(e) {
   e.preventDefault();
   picsServiceApi.query = e.currentTarget.elements.searchQuery.value;
 
-  cleanMarkup();
   picsServiceApi.resetPage();
   picsServiceApi.fetchQuery().then(({ hits, totalHits }) => {
     if (!hits.length) {
@@ -25,18 +26,24 @@ function onSearch(e) {
       );
     }
     Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+    cleanMarkup();
     refs.gallery.insertAdjacentHTML('beforeend', createCardMarkup(hits));
     refs.loadMoreBtn.classList.remove('visually-hidden');
-
-    let lightbox = new SimpleLightbox('.gallery a');
-    lightbox.on('show.simplelightbox');
+    // let lightbox = new SimpleLightbox('.gallery a');
   });
 }
 
 function onLoadMore() {
-  picsServiceApi
-    .fetchQuery()
-    .then(data => refs.gallery.insertAdjacentHTML('beforeend', createCardMarkup(data.hits)));
+  picsServiceApi.fetchQuery().then(({ hits }) => {
+    if (hits.length < 40) {
+      refs.loadMoreBtn.classList.add('visually-hidden');
+      Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+    }
+
+    refs.gallery.insertAdjacentHTML('beforeend', createCardMarkup(hits));
+    // let lightbox = new SimpleLightbox('.gallery a');
+    // lightbox.refresh();
+  });
 }
 function cleanMarkup() {
   refs.gallery.innerHTML = '';
