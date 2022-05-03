@@ -1,27 +1,37 @@
 import './css/styles.css';
 import Notiflix from 'notiflix';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { createCardMarkup } from './js/createCardMarkup';
-import { fetchQuery } from './js/fetchQuery';
+import { PicsApiSet } from './js/fetchQuery';
 import { refs } from './js/refs';
 
-let gallery = new SimpleLightbox('.gallery a');
+refs.form.addEventListener('submit', onSearch);
+refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
-refs.form.addEventListener('submit', onSubmitClick);
+const picsApiSet = new PicsApiSet();
 
-function onSubmitClick(e) {
+function onSearch(e) {
   e.preventDefault();
-  const searchQuery = e.target.elements.searchQuery.value;
 
-  fetchQuery(searchQuery).then(data => {
+  cleanMarkup();
+  picsApiSet.query = e.currentTarget.elements.searchQuery.value;
+  picsApiSet.resetPage();
+  picsApiSet.fetchQuery().then(data => {
     if (!data.length) {
       return Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.',
       );
     }
-    const markup = createCardMarkup(data);
-    refs.gallery.innerHTML = markup;
+    refs.gallery.insertAdjacentHTML('beforeend', createCardMarkup(data));
+    refs.loadMoreBtn.classList.remove('is-hidden');
   });
+}
+
+function onLoadMore() {
+  picsApiSet
+    .fetchQuery()
+    .then(data => refs.gallery.insertAdjacentHTML('beforeend', createCardMarkup(data)));
+}
+function cleanMarkup() {
+  refs.gallery.innerHTML = '';
 }

@@ -16,6 +16,6 @@ img {
   display: block;
 }
 
-/* .gallery {
-  display: flex;
-} */
+.is-hidden {
+  display: none;
+}
