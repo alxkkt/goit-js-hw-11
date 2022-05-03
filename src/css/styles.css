@@ -16,6 +16,74 @@ img {
   display: block;
 }
 
-.is-hidden {
-  display: none;
+p {
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -30px;
+  margin-bottom: -30px;
+
+  padding: 30px;
+}
+
+.gallery__item {
+  cursor: default;
+  text-decoration: none;
+  color: #212121;
+
+  flex-basis: calc(100% / 4 - 30px);
+  margin-left: 30px;
+  margin-bottom: 30px;
+}
+
+.gallery__item img {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+}
+
+.load-more {
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 40px;
+
+  cursor: pointer;
+
+
+  border-style: none;
+  border-radius: 15px;
+  color: #fefefe;
+  font-size: 17px;
+  background-color: lightskyblue;
+}
+
+.photo-card {
+  display: grid;
+  place-items: center;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-item {
+  padding: 5px;
+
+  display: flex;
 }

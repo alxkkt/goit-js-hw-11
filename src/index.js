@@ -1,36 +1,42 @@
 import './css/styles.css';
 import Notiflix from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 import { createCardMarkup } from './js/createCardMarkup';
-import { PicsApiSet } from './js/fetchQuery';
+import { PicsServiceApi } from './js/fetchQuery';
 import { refs } from './js/refs';
 
 refs.form.addEventListener('submit', onSearch);
 refs.loadMoreBtn.addEventListener('click', onLoadMore);
 
-const picsApiSet = new PicsApiSet();
+const picsServiceApi = new PicsServiceApi();
 
 function onSearch(e) {
   e.preventDefault();
+  picsServiceApi.query = e.currentTarget.elements.searchQuery.value;
 
   cleanMarkup();
-  picsApiSet.query = e.currentTarget.elements.searchQuery.value;
-  picsApiSet.resetPage();
-  picsApiSet.fetchQuery().then(data => {
-    if (!data.length) {
+  picsServiceApi.resetPage();
+  picsServiceApi.fetchQuery().then(({ hits, totalHits }) => {
+    if (!hits.length) {
       return Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.',
       );
     }
-    refs.gallery.insertAdjacentHTML('beforeend', createCardMarkup(data));
-    refs.loadMoreBtn.classList.remove('is-hidden');
+    Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+    refs.gallery.insertAdjacentHTML('beforeend', createCardMarkup(hits));
+    refs.loadMoreBtn.classList.remove('visually-hidden');
+
+    let lightbox = new SimpleLightbox('.gallery a');
+    lightbox.on('show.simplelightbox');
   });
 }
 
 function onLoadMore() {
-  picsApiSet
+  picsServiceApi
     .fetchQuery()
-    .then(data => refs.gallery.insertAdjacentHTML('beforeend', createCardMarkup(data)));
+    .then(data => refs.gallery.insertAdjacentHTML('beforeend', createCardMarkup(data.hits)));
 }
 function cleanMarkup() {
   refs.gallery.innerHTML = '';
