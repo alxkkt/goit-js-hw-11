@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "axios": "^0.27.2",
-    "infinite-scroll": "^4.0.1",
     "notiflix": "^3.2.5",
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-custom-dist-structure": "^1.1.18",
